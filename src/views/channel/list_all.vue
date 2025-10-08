@@ -53,7 +53,7 @@
 					<span :class="scope.row.type_class">{{scope.row.type_str}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="通道费率" prop="rate" min-width="40" />
+			<!-- <el-table-column label="通道费率" prop="rate" min-width="40" /> -->
 			<el-table-column label="通道状态" min-width="40">
 				<template slot-scope="scope">
 					<span :class="scope.row.status_class">{{scope.row.status_str}}</span>
@@ -81,7 +81,7 @@
 					<span :class="scope.row.type_class">{{scope.row.type_str}}</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="通道费率" prop="rate" width="120" />
+			<!-- <el-table-column label="通道费率" prop="rate" width="120" /> -->
 			<el-table-column label="通道状态" width="120">
 				<template slot-scope="scope">
 					<span :class="scope.row.status_class">{{scope.row.status_str}}</span>
@@ -119,12 +119,12 @@
 						<el-input v-model="form.code" maxlength="50" show-word-limit autocomplete="off">
 						</el-input>
 					</el-form-item>
-					<el-form-item label="通道费率">
+					<!-- <el-form-item label="通道费率">
 						<el-input-number v-model="form.rate" :controls="false" class="text-left" />
 						<el-tooltip class="item ml20" effect="dark" content="例如：千分之三填 0.003" placement="right">
 							<i class="el-icon-warning-outline"></i>
 						</el-tooltip>
-					</el-form-item>
+					</el-form-item> -->
 					<el-form-item label="通道类型">
 						<el-select v-model="form.type">
 							<el-option v-for="item in channelType" :key="item.value" :label="item.label" :value="item.value" />

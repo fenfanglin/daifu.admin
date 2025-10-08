@@ -26,11 +26,7 @@ const user = {
       { value: 2, label: '不通过' },
     ],
     channelType:[
-      { value: 1, label: '网银' },
-      { value: 2, label: '数字货币' },
-      { value: 3, label: '支付宝' },
-      { value: 4, label: '微信' },
-      { value: 5, label: '四方平台' },
+      { value: 1, label: '三方通道' },
     ],
     orderStatus:[
       { value: -1, label: '未支付' },
