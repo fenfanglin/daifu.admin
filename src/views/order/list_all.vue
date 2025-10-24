@@ -16,7 +16,10 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item class="mr10">
-				<el-date-picker v-model="queryParams.success_time" type="datetimerange" range-separator="至" start-placeholder="成功时间开始" end-placeholder="成功时间结束" :default-time="['00:00:00', '23:59:59']" />
+				<el-date-picker v-model="queryParams.success_time" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="成功时间开始" end-placeholder="成功时间结束" :default-time="['00:00:00', '23:59:59']" />
+			</el-form-item>
+			<el-form-item class="mr10">
+				<el-date-picker v-model="queryParams.create_time" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="下单时间开始" end-placeholder="下单时间结束" :default-time="['00:00:00', '23:59:59']" />
 			</el-form-item>
 			<!-- <el-form-item class="mr10">
 				<el-date-picker
@@ -43,9 +46,16 @@
 
 		<el-row class="mt10 mb20">
 			<el-col :span="1.5" class="total-info">
-				今日交易总额：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">￥{{info.today_amount}}</el-tag>
-				今日交易笔数：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.today_order}}单</el-tag>
-				今日成功率：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.today_success_rate}}%</el-tag>
+				<span v-if="info.show_search == true">
+					交易总额：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">￥{{info.success_amount}}</el-tag>
+					交易笔数：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.success_order}}单</el-tag>
+					成功率：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.success_rate}}%</el-tag>
+				</span>
+				<span v-else>
+					今日交易总额：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">￥{{info.today_success_amount}}</el-tag>
+					今日交易笔数：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.today_success_order}}单</el-tag>
+					今日成功率：<el-tag type="primary" size="small" effect="dark" class="bolder mr20">{{info.today_success_rate}}%</el-tag>
+				</span>
 			</el-col>
 		</el-row>
 

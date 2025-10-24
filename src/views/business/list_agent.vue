@@ -18,7 +18,7 @@
 				</el-select>
 			</el-form-item>
 			<el-form-item class="mr10">
-				<el-date-picker v-model="queryParams.create_time" type="datetimerange" range-separator="至" start-placeholder="注册时间开始" end-placeholder="注册时间结束" :default-time="['00:00:00', '23:59:59']" />
+				<el-date-picker v-model="queryParams.create_time" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="注册时间开始" end-placeholder="注册时间结束" :default-time="['00:00:00', '23:59:59']" />
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" icon="el-icon-search" size="medium" @click="handleQuery">搜索</el-button>

@@ -17,7 +17,7 @@
 				<el-input v-model="queryParams.account_sub" placeholder="尾号" clearable />
 			</el-form-item>
 			<el-form-item class="mr10">
-				<el-date-picker v-model="queryParams.create_time" type="datetimerange" range-separator="至" start-placeholder="监控时间开始" end-placeholder="监控时间结束" :default-time="['00:00:00', '23:59:59']" />
+				<el-date-picker v-model="queryParams.create_time" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="监控时间开始" end-placeholder="监控时间结束" :default-time="['00:00:00', '23:59:59']" />
 			</el-form-item>
 			<el-form-item class="mr10">
 				<el-select v-model="queryParams.status" placeholder="状态" clearable>
