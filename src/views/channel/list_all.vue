@@ -2,7 +2,7 @@
 	<div class="app-container">
 		<el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch">
 			<el-form-item class="mr10">
-				<el-input v-model="queryParams.keyword" placeholder="通道ID/通道名称" clearable/>
+				<el-input v-model="queryParams.keyword" placeholder="通道ID/通道名称" clearable />
 			</el-form-item>
 			<el-form-item class="mr10">
 				<el-select v-model="queryParams.type" placeholder="通道类型" clearable>
@@ -53,6 +53,19 @@
 					<span :class="scope.row.type_class">{{scope.row.type_str}}</span>
 				</template>
 			</el-table-column>
+			<el-table-column label="请求接口暂停时间" min-width="40">
+				<template slot-scope="scope">
+					<span :class="scope.row.type_class">
+						{{parseFloat(scope.row.request_api_sleep).toFixed(2)}}秒</span>
+				</template>
+			</el-table-column>
+			<el-table-column label="处理循环暂停时间" min-width="40">
+				<template slot-scope="scope">
+					<span :class="scope.row.type_class">
+						{{parseFloat(scope.row.execute_loop_sleep).toFixed(2)}}秒</span>
+				</template>
+			</el-table-column>
+
 			<!-- <el-table-column label="通道费率" prop="rate" min-width="40" /> -->
 			<el-table-column label="通道状态" min-width="40">
 				<template slot-scope="scope">
@@ -81,6 +94,18 @@
 					<span :class="scope.row.type_class">{{scope.row.type_str}}</span>
 				</template>
 			</el-table-column>
+			<el-table-column label="请求接口暂停时间" min-width="40">
+				<template slot-scope="scope">
+					<span :class="scope.row.type_class">
+						{{parseFloat(scope.row.request_api_sleep).toFixed(2)}}秒</span>
+				</template>
+			</el-table-column>
+			<el-table-column label="处理循环暂停时间" min-width="40">
+				<template slot-scope="scope">
+					<span :class="scope.row.type_class">
+						{{parseFloat(scope.row.execute_loop_sleep).toFixed(2)}}秒</span>
+				</template>
+			</el-table-column>
 			<!-- <el-table-column label="通道费率" prop="rate" width="120" /> -->
 			<el-table-column label="通道状态" width="120">
 				<template slot-scope="scope">
@@ -99,13 +124,7 @@
 			</el-table-column>
 		</el-table>
 
-		<pagination
-			v-show="total>0"
-			:total="total"
-			:page.sync="queryParams.page"
-			:limit.sync="queryParams.limit"
-			@pagination="getList"
-		/>
+		<pagination v-show="total>0" :total="total" :page.sync="queryParams.page" :limit.sync="queryParams.limit" @pagination="getList" />
 
 		<!-- 添加或编辑对话框 -->
 		<el-dialog :title="title" :visible.sync="open" width="600px" append-to-body :close-on-click-modal="false">
@@ -118,6 +137,18 @@
 					<el-form-item label="通道代码">
 						<el-input v-model="form.code" maxlength="50" show-word-limit autocomplete="off">
 						</el-input>
+					</el-form-item>
+					<el-form-item label="请求接口暂停时间">
+						<el-input-number v-model='form.request_api_sleep' :min="1" :max="500" /> 秒
+
+						<!-- <el-input v-model="form.request_api_sleep" maxlength="50" show-word-limit autocomplete="off">秒
+						</el-input> -->
+					</el-form-item>
+					<el-form-item label="处理循环暂停时间">
+						<el-input-number v-model='form.execute_loop_sleep' :min="1" :max="500" /> 秒
+						<!-- <el-input v-model="form.execute_loop_sleep" maxlength="50" show-word-limit autocomplete="off">秒
+						</el-input> -->
+
 					</el-form-item>
 					<!-- <el-form-item label="通道费率">
 						<el-input-number v-model="form.rate" :controls="false" class="text-left" />
@@ -170,7 +201,7 @@ export default {
 			title: "",
 			// 是否显示弹出层
 			open: false,
-			
+
 			// 查询参数
 			queryParams: {
 				page: 1,
@@ -215,11 +246,11 @@ export default {
 	},
 	created() {
 		this.getList();
-		
+
 		// console.log("==============================================================")
 		// var user = getUser()
 		// console.log("user", user)
-		
+
 		// const obj = { name: 'ryan' }
 		// Cookies.set('user', JSON.stringify(obj))
 		// var user = JSON.parse(Cookies.get('user'))
@@ -232,7 +263,7 @@ export default {
 		/** 查询列表 */
 		getList() {
 			let that = this
-			
+
 			that.loading = true;
 			that.request({
 				url: "channel/list",
@@ -292,7 +323,7 @@ export default {
 		/** 编辑按钮操作 */
 		handleEdit(row) {
 			let that = this
-			
+
 			that.reset();
 			that.request({
 				url: "channel/view",
@@ -306,9 +337,9 @@ export default {
 			});
 		},
 		/** 提交按钮 */
-		submitForm: function() {
+		submitForm: function () {
 			let that = this
-			
+
 			that.$refs["form"].validate(valid => {
 				if (valid) {
 					that.request({
@@ -317,7 +348,7 @@ export default {
 					}).then(res => {
 						that.open = false;
 						that.getList();
-						
+
 						if (that.form.id != undefined) {
 							that.$modal.msgSuccess("编辑成功");
 						} else {
@@ -330,14 +361,14 @@ export default {
 		/** 删除按钮操作 */
 		handleDelete(row) {
 			let that = this;
-			
+
 			const ids = row.no || this.ids;
-			
+
 			that.$confirm("是否确认删除?", "提示", {
 				confirmButtonText: "确定",
 				cancelButtonText: "取消",
 				type: "warning",
-			}).then(function() {
+			}).then(function () {
 				that.request({
 					url: "channel/delete",
 					data: {
@@ -348,7 +379,7 @@ export default {
 					that.getList();
 				});
 			}).catch(() => {
-				
+
 			})
 		},
 		/** 状态编辑按钮 */
@@ -380,12 +411,12 @@ export default {
 		/** 开启 */
 		enable(row) {
 			let that = this;
-			
+
 			that.$confirm("是否确认开启此数据?", "提示", {
 				confirmButtonText: "确定",
 				cancelButtonText: "取消",
 				type: "warning",
-			}).then(function() {
+			}).then(function () {
 				that.request({
 					url: "channel/enable",
 					data: {
@@ -404,12 +435,12 @@ export default {
 		/** 关闭 */
 		disable(row) {
 			let that = this;
-			
+
 			that.$confirm("是否确认关闭此数据?", "提示", {
 				confirmButtonText: "确定",
 				cancelButtonText: "取消",
 				type: "warning",
-			}).then(function() {
+			}).then(function () {
 				that.request({
 					url: "channel/disable",
 					data: {
@@ -428,9 +459,9 @@ export default {
 		/** 导出按钮操作 */
 		handleExport() {
 			let that = this;
-			
+
 			that.exportExcel("channel/export", this.queryParams, "管理员").then(res => {
-				
+
 			});
 		},
 	}
